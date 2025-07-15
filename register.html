@@ -1,11 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
+  <meta charset="UTF-8" />
+  <title>Register</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="script.js" defer></script>
 </head>
 <body>
+  <div class="container">
+    <h2>Register</h2>
+    <input type="text" id="username" placeholder="Username" />
+    <br>
+    <br>
+    <input type="password" id="password" placeholder="Password" />
+    <br>
+    <br>
+    <select id="role">
+      <option value="">Choose Role</option>
+      <option value="admin">Admin</option>
+      <option value="author">Author</option>
+    </select>
+    <br>
+    <br>
+    <button onclick="window.location.href='home.html'">Back</button>
+    <button onclick="register()">Register</button>
+  <p id="message"></p>
     
+  </div>
 </body>
 </html>
