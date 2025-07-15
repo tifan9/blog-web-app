@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Logout</title>
   <style>
     * {
@@ -13,7 +13,7 @@
     }
 
     body {
-      background: linear-gradient(135deg, #87CEEB 0%, #00BFFF 50%, #1E90FF 100%);
+      background: linear-gradient(135deg, #889ca3 0%, #6f909b 50%, #071829 100%);
       min-height: 100vh;
       display: flex;
       align-items: center;
@@ -31,7 +31,6 @@
       text-align: center;
       animation: fadeIn 0.5s ease-out;
       backdrop-filter: blur(5px);
-      border: 1px solid rgba(255, 255, 255, 0.3);
     }
 
     @keyframes fadeIn {
@@ -39,14 +38,10 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    .dashboard-header {
-      margin-bottom: 25px;
-    }
-
     .dashboard-header h2 {
       color: #2c3e50;
       font-size: 2rem;
-      margin-bottom: 5px;
+      margin-bottom: 10px;
     }
 
     .username-display {
@@ -56,20 +51,19 @@
     }
 
     .user-details {
-      width: 100%;
-      background: rgba(248, 249, 250, 0.8);
+      text-align: left;
+      margin-top: 25px;
+      margin-bottom: 25px;
+      background: #f8f9fa;
       border-radius: 10px;
       padding: 20px;
-      margin-bottom: 25px;
-      text-align: left;
-      backdrop-filter: blur(2px);
     }
 
     .detail-row {
       display: flex;
       justify-content: space-between;
-      padding: 12px 0;
-      border-bottom: 1px solid rgba(236, 240, 241, 0.7);
+      padding: 10px 0;
+      border-bottom: 1px solid #ecf0f1;
     }
 
     .detail-row:last-child {
@@ -79,159 +73,150 @@
     .detail-label {
       color: #7f8c8d;
       font-weight: 500;
-      min-width: 120px;
     }
 
     .detail-value {
       color: #2c3e50;
       font-weight: 600;
-      text-align: right;
     }
 
-    /* Enhanced Logout Section */
     .logout-section {
-      margin-top: 50px;
-      padding: 30px;
-      background: rgba(255, 249, 249, 0.9);
-      border-radius: 12px;
-      border: 1px solid rgba(255, 235, 238, 0.8);
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      margin-top: 40px;
+      background: #fff5f5;
+      padding: 25px;
+      border-radius: 10px;
+      border: 1px solid #ffe6e6;
     }
 
     .logout-title {
       color: #e74c3c;
       font-size: 1.4rem;
-      margin-bottom: 15px;
+      margin-bottom: 10px;
       font-weight: 600;
     }
 
     .logout-instruction {
       color: #7f8c8d;
-      font-size: 1rem;
-      margin-bottom: 25px;
-      line-height: 1.5;
+      margin-bottom: 20px;
     }
 
     .btn-logout {
       width: 100%;
-      padding: 16px;
-      background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+      padding: 15px;
+      font-size: 1.1rem;
+      background: linear-gradient(to right, #1766cc, #1e4bac);
       color: white;
       border: none;
       border-radius: 10px;
-      font-size: 1.2rem;
-      font-weight: 600;
       cursor: pointer;
       transition: all 0.3s ease;
-      box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
-      margin: 10px 0;
     }
 
     .btn-logout:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 6px 25px rgba(231, 76, 60, 0.4);
-    }
-
-    .btn-logout:active {
-      transform: translateY(0);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(21, 70, 204, 0.3);
     }
 
     .logout-message {
-      color: #27ae60;
-      margin-top: 25px;
-      font-size: 1.1rem;
       display: none;
-      padding: 15px;
-      background: rgba(240, 255, 244, 0.9);
-      border-radius: 8px;
-      border: 1px solid rgba(39, 174, 96, 0.2);
+      margin: 5vh auto 5vh auto; /* responsive vertical spacing */
+      background-color: #eafaf1;
+      padding: 4vw; /* responsive padding based on screen width */
+      color: #27ae60;
+      border-radius: 0.5em;
+      border: 1px solid #bfe3d1;
+      max-width: 90%; /* prevent stretching too wide */
+      width: fit-content;
+      animation: fadeOut 2s forwards;
+      text-align: center;
+      font-size: 1rem; /* scalable text */
+}
+
+
+    @keyframes fadeOut {
+      0% { opacity: 1; }
+      100% { opacity: 0; }
     }
 
-    /* Responsive Adjustments */
-    @media (max-width: 600px) {
-      .dashboard-container {
-        padding: 25px;
-      }
-      
-      .dashboard-header h2 {
-        font-size: 1.8rem;
-      }
-      
-      .user-details {
-        padding: 15px;
-      }
+    /* Modal Styles */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
 
-      .logout-section {
-        margin-top: 40px;
-        padding: 25px;
-      }
-      
-      .logout-title {
-        font-size: 1.3rem;
-      }
+    .modal {
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      text-align: center;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+
+    .modal h3 {
+      margin-bottom: 15px;
+      color: #e74c3c;
+    }
+
+    .modal-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+      gap: 10px;
+    }
+
+    .modal-buttons button {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    .btn-cancel {
+      background: #bdc3c7;
+      color: white;
+    }
+
+    .btn-confirm {
+      background: #e74c3c;
+      color: white;
     }
 
     @media (max-width: 480px) {
-      body {
-        padding: 15px;
-        background: linear-gradient(135deg, #87CEEB 0%, #E0F7FA 100%);
-      }
-      
-      .dashboard-container {
-        padding: 20px;
-      }
-
       .dashboard-header h2 {
         font-size: 1.6rem;
       }
-
       .username-display {
-        font-size: 1.1rem;
+        font-size: 1rem;
       }
-
-      .detail-row {
-        flex-direction: column;
-        gap: 5px;
-        padding: 10px 0;
-      }
-
-      .detail-label {
-        min-width: auto;
-      }
-
-      .detail-value {
-        text-align: left;
-      }
-
-      .logout-section {
-        padding: 20px;
-        margin-top: 30px;
-      }
-
       .btn-logout {
-        padding: 18px;
-        font-size: 1.1rem;
+        padding: 14px;
+        font-size: 1rem;
       }
-      
-      #logout-message {
-        display: none;
-        padding: 10px;
-        margin-top: 10px;
-        background-color: #f8d7da;
-        color: #721c24;
-        border-radius: 5px;
-        transition: opacity 0.5s ease-out;
+      @keyframes fadeOut {
+       0% { opacity: 1; }
+       100% { opacity: 0; display: none; }
 }
 
     }
   </style>
 </head>
 <body>
+
   <div class="dashboard-container">
     <div class="dashboard-header">
       <h2>Logout <span class="username-display" id="header-username"></span></h2>
     </div>
-    
+
     <div class="user-details">
       <div class="detail-row">
         <span class="detail-label">Username:</span>
@@ -246,78 +231,57 @@
         <span class="detail-value" id="last-activity"></span>
       </div>
     </div>
-    
+
     <div class="logout-section">
       <div class="logout-title">Ready to leave?</div>
-      <div class="logout-instruction">To securely end your session, please click the logout button below. All your data will be safely protected.</div>
-      <button class="btn-logout" onclick="confirmLogout()">Logout Now</button>
-      <div id="logout-message" class="logout-message">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 8px;">
-          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-          <polyline points="22 4 12 14.01 9 11.01"></polyline>
-        </svg>
-        Logging you out securely...
+      <div class="logout-instruction">To securely end your session, please click the logout button below.</div>
+      <button class="btn-logout" onclick="openModal()">Logout Now</button>
+      <div id="logout-message" class="logout-message">Logging out securely...</div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal-overlay" id="modal">
+    <div class="modal">
+      <h3>Confirm Logout</h3>
+      <p>Are you sure you want to log out?</p>
+      <div class="modal-buttons">
+        <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+        <button class="btn-confirm" onclick="performLogout()">Yes, Logout</button>
       </div>
     </div>
   </div>
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      displayUserInfo();
-    });
-  
-    function displayUserInfo() {
       const username = localStorage.getItem('username') || 'User';
       const now = new Date().toLocaleString();
-  
-      const displayUsernameEl = document.getElementById('display-username');
-      const headerUsernameEl = document.getElementById('header-username');
-      const lastActivityEl = document.getElementById('last-activity');
-  
-      if (displayUsernameEl) displayUsernameEl.textContent = username;
-      if (headerUsernameEl) headerUsernameEl.textContent = username;
-      if (lastActivityEl) lastActivityEl.textContent = now;
+
+      document.getElementById('header-username').textContent = username;
+      document.getElementById('display-username').textContent = username;
+      document.getElementById('last-activity').textContent = now;
+    });
+
+    function openModal() {
+      document.getElementById('modal').style.display = 'flex';
     }
-  
-    function confirmLogout() {
-      const confirmed = window.confirm('Are you sure you want to log out?');
-  
-      if (confirmed) {
-        performLogout();
-      }
+
+    function closeModal() {
+      document.getElementById('modal').style.display = 'none';
     }
-  
+
     function performLogout() {
-      const messageDiv = document.getElementById('logout-message');
-      if (messageDiv) {
-        messageDiv.style.display = 'block';
-        messageDiv.style.opacity = 1;
-        messageDiv.textContent = 'Logging out...';
-  
-        // Smooth fade-out animation
-        let opacity = 1;
-        const fadeInterval = setInterval(() => {
-          if (opacity <= 0) {
-            clearInterval(fadeInterval);
-            redirectToLogin();
-          } else {
-            opacity -= 0.05;
-            messageDiv.style.opacity = opacity;
-          }
-        }, 50);
-      } else {
-        redirectToLogin(); // Fallback
-      }
-  
-      // Clear only login credentials
+      closeModal();
       localStorage.removeItem('username');
       localStorage.removeItem('password');
-    }
-  
-    function redirectToLogin() {
-      window.location.href = 'login.html';
+
+      const msg = document.getElementById('logout-message');
+      msg.style.display = 'block';
+
+      setTimeout(() => {
+        window.location.href = 'login.html';
+      }, 2000);
     }
   </script>
-  
 </body>
 </html>
