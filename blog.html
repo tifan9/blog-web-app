@@ -1,0 +1,124 @@
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Simple Blog - Create Post</title>
+      <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+      <div class="container">
+          <header class="header">
+              <h1>📝 Simple Blog</h1>
+              <nav class="nav">
+                  <a href="index.html" class="btn btn-outline">Home</a>
+                  <a href="display-blog.html" class="btn btn-outline">View Posts</a>
+                  <a href="admin-dashboard.html" class="btn btn-outline" id="adminLink" style="display: none;">Admin</a>
+                  <button onclick="logout()" class="btn btn-danger" id="logoutBtn">Logout</button>
+                  <span id="userInfo" class="user-info"></span>
+              </nav>
+          </header>
+  
+          <main class="main-content">
+              <div id="alerts"></div>
+              
+              <div class="blog-container">
+                  <div class="blog-header">
+                      <h2 id="pageTitle">Create New Post</h2>
+                      <p>Share your thoughts with the world</p>
+                  </div>
+                  
+                  <div class="blog-form-container">
+                      <form id="postForm" onsubmit="handleCreatePost(event)">
+                          <div class="form-group">
+                              <label for="postTitle">Post Title</label>
+                              <input type="text" id="postTitle" placeholder="Enter an engaging title" required minlength="3">
+                          </div>
+                          
+                          <div class="form-group">
+                              <label for="postContent">Content</label>
+                              <textarea id="postContent" placeholder="Write your post content here..." required minlength="10" rows="8"></textarea>
+                          </div>
+                          
+                          <div class="form-group">
+                              <label for="postImage">Image URL (Optional)</label>
+                              <input type="url" id="postImage" placeholder="https://example.com/image.jpg">
+                              <small>Add an image to make your post more engaging</small>
+                          </div>
+                          
+                          <div class="form-actions">
+                              <button type="submit" id="postSubmitBtn" class="btn btn-primary btn-large">Create Post</button>
+                              <button type="button" id="cancelEditBtn" onclick="cancelEdit()" class="btn btn-secondary" style="display: none;">Cancel Edit</button>
+                          </div>
+                      </form>
+                  </div>
+                  
+                  <div class="recent-posts">
+                      <h3>Your Recent Posts</h3>
+                      <div id="userPostsContainer"></div>
+                  </div>
+              </div>
+          </main>
+      </div>
+  
+      <script src="script.js"></script>
+      <script>
+          // Check if user is logged in and is an author
+          document.addEventListener('DOMContentLoaded', function() {
+              checkAuthForBlog();
+              renderUserPosts();
+          });
+  
+          function checkAuthForBlog() {
+              const user = getCurrentUser();
+              if (!user) {
+                  window.location.href = 'login.html';
+                  return;
+              }
+              
+              if (user.role !== 'author') {
+                  showAlert('Only authors can create posts', 'error');
+                  setTimeout(() => {
+                      window.location.href = user.role === 'admin' ? 'admin-dashboard.html' : 'display-blog.html';
+                  }, 2000);
+                  return;
+              }
+              
+              document.getElementById('userInfo').textContent = `${user.username} (${user.role})`;
+              if (user.role === 'admin') {
+                  document.getElementById('adminLink').style.display = 'inline-block';
+              }
+          }
+  
+          function renderUserPosts() {
+              const user = getCurrentUser();
+              if (!user) return;
+              
+              const posts = getPosts()
+                  .filter(post => post.author === user.username)
+                  .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+                  .slice(0, 5); // Show only recent 5 posts
+              
+              const container = document.getElementById('userPostsContainer');
+              
+              if (posts.length === 0) {
+                  container.innerHTML = '<p class="no-posts">You haven\'t created any posts yet.</p>';
+                  return;
+              }
+              
+              container.innerHTML = posts
+                  .map(post => `
+                      <div class="user-post-item">
+                          <h4>${escapeHTML(post.title)}</h4>
+                          <p class="post-date">${formatDate(post.createdAt)}</p>
+                          <div class="post-actions">
+                              <button onclick="editPost('${post.id}')" class="btn btn-small btn-secondary">Edit</button>
+                              <button onclick="deletePost('${post.id}')" class="btn btn-small btn-danger">Delete</button>
+                          </div>
+                      </div>
+                  `)
+                  .join('');
+          }
+      </script>
+  </body>
+  </html>
