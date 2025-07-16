@@ -17,7 +17,7 @@ form {
   border-radius: 6px;
 }
 
-input, textarea, button {
+input, textarea {
   display: block;
   margin-top: 10px;
   width: 100%;
@@ -28,12 +28,19 @@ input, textarea, button {
 }
 
 button {
+    display: block;
+    margin-top: 10px;
+    width: 10%;
   background-color: #007bff;
   color: white;
   font-weight: bold;
   border: none;
   cursor: pointer;
   transition: background-color 0.2s ease;
+    padding: 8px;
+  font-size: 14px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
 }
 
 button:hover {
