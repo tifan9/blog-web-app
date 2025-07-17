@@ -283,7 +283,7 @@ function escapeHTML(text) {
     return div.innerHTML;
 }
 
-// Method chaining examples in data operations
+// Method chaining
 function getPostsWithMethodChaining() {
     return getPosts()
         .filter(post => post.author === currentUser?.username)
