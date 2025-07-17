@@ -1,153 +1,171 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Simple Blog - Admin Dashboard</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
     <div class="container">
-        <header class="header">
-            <h1>📝 Simple Blog</h1>
-            <nav class="nav">
-                <a href="index.html" class="btn btn-outline">Home</a>
-                <a href="display-blog.html" class="btn btn-outline">View Posts</a>
-                <button onclick="logout()" class="btn btn-danger">Logout</button>
-                <span id="userInfo" class="user-info"></span>
-            </nav>
-        </header>
+      <header class="header">
+        <h1>📝 Simple Blog</h1>
+        <nav class="nav">
+          <a href="index.html" class="btn btn-outline">Home</a>
+          <a href="display-blog.html" class="btn btn-outline">View Posts</a>
+          <button onclick="logout()" class="btn btn-danger">Logout</button>
+          <span id="userInfo" class="user-info"></span>
+        </nav>
+      </header>
 
-        <main class="main-content">
-            <div id="alerts"></div>
-            
-            <div class="admin-container">
-                <div class="admin-header">
-                    <h2>Admin Dashboard</h2>
-                    <p>Manage users and monitor blog activity</p>
-                </div>
+      <main class="main-content">
+        <div id="alerts"></div>
+
+        <div class="admin-container">
+          <div class="admin-header">
+            <h2>Admin Dashboard</h2>
+            <p>Manage users and monitor blog activity</p>
+          </div>
+
+          <div class="admin-stats">
+            <div class="stat-card">
+              <h3 id="totalUsers">0</h3>
+              <p>Total Users</p>
+            </div>
+            <div class="stat-card">
+              <h3 id="totalPosts">0</h3>
+              <p>Total Posts</p>
+            </div>
+            <div class="stat-card">
+              <h3 id="totalAuthors">0</h3>
+              <p>Authors</p>
+            </div>
+            <div class="stat-card">
+              <h3 id="totalAdmins">0</h3>
+              <p>Admins</p>
+            </div>
+          </div>
+
+          <div class="admin-sections">
+            <div class="admin-section">
+              <div class="section-header">
                 
-                <div class="admin-stats">
-                    <div class="stat-card">
-                        <h3 id="totalUsers">0</h3>
-                        <p>Total Users</p>
-                    </div>
-                    <div class="stat-card">
-                        <h3 id="totalPosts">0</h3>
-                        <p>Total Posts</p>
-                    </div>
-                    <div class="stat-card">
-                        <h3 id="totalAuthors">0</h3>
-                        <p>Authors</p>
-                    </div>
-                    <div class="stat-card">
-                        <h3 id="totalAdmins">0</h3>
-                        <p>Admins</p>
-                    </div>
+                <h3>
+                  
+                  All Users
+                </h3>
+                <div class="section-controls">
+                  <input
+                    type="text"
+                    id="userSearch"
+                    placeholder="Search users..."
+                    oninput="searchUsers()"
+                  />
+                  <select id="roleFilter" onchange="filterUsers()">
+                    <option value="">All Roles</option>
+                    <option value="admin">Admins</option>
+                    <option value="author">Authors</option>
+                  </select>
                 </div>
-                
-                <div class="admin-sections">
-                    <div class="admin-section">
-                        <div class="section-header">
-                            <h3>👥 All Users</h3>
-                            <div class="section-controls">
-                                <input type="text" id="userSearch" placeholder="Search users..." oninput="searchUsers()">
-                                <select id="roleFilter" onchange="filterUsers()">
-                                    <option value="">All Roles</option>
-                                    <option value="admin">Admins</option>
-                                    <option value="author">Authors</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="users-grid" id="usersContainer">
-                            <!-- Users will be rendered here -->
-                        </div>
-                    </div>
-                    
-                    <div class="admin-section">
+              </div>
+              <div class="users-grid" id="usersContainer">
+                <!-- Users will be rendered here -->
+              </div>
+            </div>
+
+            <!-- <div class="admin-section">
                         <div class="section-header">
                             <h3>📝 Recent Posts</h3>
                             <a href="display-blog.html" class="btn btn-small btn-outline">View All</a>
                         </div>
                         <div class="recent-posts-admin" id="recentPostsContainer">
-                            <!-- Recent posts will be rendered here -->
                         </div>
-                    </div>
-                </div>
-            </div>
-        </main>
+                    </div> -->
+          </div>
+        </div>
+      </main>
     </div>
 
     <script src="script.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            checkAuthForAdmin();
-            renderAdminDashboard();
-        });
+      document.addEventListener("DOMContentLoaded", function () {
+        checkAuthForAdmin();
+        renderAdminDashboard();
+      });
 
-        function checkAuthForAdmin() {
-            const user = getCurrentUser();
-            if (!user) {
-                window.location.href = 'login.html';
-                return;
-            }
-            
-            if (user.role !== 'admin') {
-                showAlert('Access denied. Admin privileges required.', 'error');
-                setTimeout(() => {
-                    window.location.href = user.role === 'author' ? 'blog.html' : 'display-blog.html';
-                }, 2000);
-                return;
-            }
-            
-            document.getElementById('userInfo').textContent = `${user.username} (${user.role})`;
+      function checkAuthForAdmin() {
+        const user = getCurrentUser();
+        if (!user) {
+          window.location.href = "login.html";
+          return;
         }
 
-        function renderAdminDashboard() {
-            renderStats();
-            renderUsers();
-            renderRecentPosts();
+        if (user.role !== "admin") {
+          showAlert("Access denied. Admin privileges required.", "error");
+          setTimeout(() => {
+            window.location.href =
+              user.role === "author" ? "blog.html" : "display-blog.html";
+          }, 2000);
+          return;
         }
 
-        function renderStats() {
-            const users = getUsers();
-            const posts = getPosts();
-            
-            const authors = users.filter(user => user.role === 'author');
-            const admins = users.filter(user => user.role === 'admin');
-            
-            document.getElementById('totalUsers').textContent = users.length;
-            document.getElementById('totalPosts').textContent = posts.length;
-            document.getElementById('totalAuthors').textContent = authors.length;
-            document.getElementById('totalAdmins').textContent = admins.length;
+        document.getElementById(
+          "userInfo"
+        ).textContent = `${user.username} (${user.role})`;
+      }
+
+      function renderAdminDashboard() {
+        renderStats();
+        renderUsers();
+        renderRecentPosts();
+      }
+
+      function renderStats() {
+        const users = getUsers();
+        const posts = getPosts();
+
+        const authors = users.filter((user) => user.role === "author");
+        const admins = users.filter((user) => user.role === "admin");
+
+        document.getElementById("totalUsers").textContent = users.length;
+        document.getElementById("totalPosts").textContent = posts.length;
+        document.getElementById("totalAuthors").textContent = authors.length;
+        document.getElementById("totalAdmins").textContent = admins.length;
+      }
+
+      function renderUsers() {
+        const users = getUsers().sort((a, b) =>
+          a.username.localeCompare(b.username)
+        );
+        renderFilteredUsers(users);
+      }
+
+      function renderFilteredUsers(users) {
+        const container = document.getElementById("usersContainer");
+
+        if (users.length === 0) {
+          container.innerHTML = '<div class="no-users">No users found.</div>';
+          return;
         }
 
-        function renderUsers() {
-            const users = getUsers()
-                .sort((a, b) => a.username.localeCompare(b.username));
-            renderFilteredUsers(users);
-        }
+        container.innerHTML = users
+          .map((user) => createUserCard(user))
+          .join("");
+      }
 
-        function renderFilteredUsers(users) {
-            const container = document.getElementById('usersContainer');
-            
-            if (users.length === 0) {
-                container.innerHTML = '<div class="no-users">No users found.</div>';
-                return;
-            }
-            
-            container.innerHTML = users
-                .map(user => createUserCard(user))
-                .join('');
-        }
+      function createUserCard(user) {
+        const posts = getPosts().filter(
+          (post) => post.author === user.username
+        );
+        const postCount = posts.length;
+        const lastPost =
+          posts.length > 0
+            ? posts.sort(
+                (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+              )[0]
+            : null;
 
-        function createUserCard(user) {
-            const posts = getPosts().filter(post => post.author === user.username);
-            const postCount = posts.length;
-            const lastPost = posts.length > 0 ? 
-                posts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0] : null;
-            
-            return `
+        return `
                 <div class="user-card">
                     <div class="user-card-header">
                         <h4 class="user-name">${escapeHTML(user.username)}</h4>
@@ -158,66 +176,84 @@
                             <span class="stat-number">${postCount}</span>
                             <span class="stat-label">Posts</span>
                         </div>
-                        ${lastPost ? `
+                        ${
+                          lastPost
+                            ? `
                             <div class="user-stat">
                                 <span class="stat-label">Last Post:</span>
-                                <span class="stat-text">${formatDate(lastPost.createdAt)}</span>
+                                <span class="stat-text">${formatDate(
+                                  lastPost.createdAt
+                                )}</span>
                             </div>
-                        ` : ''}
+                        `
+                            : ""
+                        }
                     </div>
                 </div>
             `;
+      }
+
+      function renderRecentPosts() {
+        const posts = getPosts()
+          .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+          .slice(0, 5);
+
+        const container = document.getElementById("recentPostsContainer");
+
+        if (posts.length === 0) {
+          container.innerHTML = '<div class="no-posts">No posts found.</div>';
+          return;
         }
 
-        function renderRecentPosts() {
-            const posts = getPosts()
-                .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-                .slice(0, 5);
-            
-            const container = document.getElementById('recentPostsContainer');
-            
-            if (posts.length === 0) {
-                container.innerHTML = '<div class="no-posts">No posts found.</div>';
-                return;
-            }
-            
-            container.innerHTML = posts
-                .map(post => `
+        container.innerHTML = posts
+          .map(
+            (post) => `
                     <div class="recent-post-item">
-                        <h4 class="recent-post-title">${escapeHTML(post.title)}</h4>
+                        <h4 class="recent-post-title">${escapeHTML(
+                          post.title
+                        )}</h4>
                         <div class="recent-post-meta">
-                            <span class="recent-post-author">By ${escapeHTML(post.author)}</span>
-                            <span class="recent-post-date">${formatDate(post.createdAt)}</span>
+                            <span class="recent-post-author">By ${escapeHTML(
+                              post.author
+                            )}</span>
+                            <span class="recent-post-date">${formatDate(
+                              post.createdAt
+                            )}</span>
                         </div>
-                        <p class="recent-post-excerpt">${escapeHTML(post.content.substring(0, 100))}...</p>
+                        <p class="recent-post-excerpt">${escapeHTML(
+                          post.content.substring(0, 100)
+                        )}...</p>
                     </div>
-                `)
-                .join('');
+                `
+          )
+          .join("");
+      }
+
+      function searchUsers() {
+        const searchTerm = document
+          .getElementById("userSearch")
+          .value.toLowerCase();
+        const roleFilter = document.getElementById("roleFilter").value;
+
+        let users = getUsers();
+
+        if (searchTerm) {
+          users = users.filter((user) =>
+            user.username.toLowerCase().includes(searchTerm)
+          );
         }
 
-        function searchUsers() {
-            const searchTerm = document.getElementById('userSearch').value.toLowerCase();
-            const roleFilter = document.getElementById('roleFilter').value;
-            
-            let users = getUsers();
-            
-            if (searchTerm) {
-                users = users.filter(user => 
-                    user.username.toLowerCase().includes(searchTerm)
-                );
-            }
-            
-            if (roleFilter) {
-                users = users.filter(user => user.role === roleFilter);
-            }
-            
-            users = users.sort((a, b) => a.username.localeCompare(b.username));
-            renderFilteredUsers(users);
+        if (roleFilter) {
+          users = users.filter((user) => user.role === roleFilter);
         }
 
-        function filterUsers() {
-            searchUsers(); // Reuse the search function
-        }
+        users = users.sort((a, b) => a.username.localeCompare(b.username));
+        renderFilteredUsers(users);
+      }
+
+      function filterUsers() {
+        searchUsers(); // Reuse the search function
+      }
     </script>
-</body>
+  </body>
 </html>
