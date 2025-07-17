@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Simple Blog - Admin Dashboard</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header class="header">
+        <h1>Blogger</h1>
+        <nav class="nav">
+          <a href="index.html" class="btn btn-outline">Home</a>
+          <a href="display-blog.html" class="btn btn-outline">View Posts</a>
+          <button onclick="logout()" class="btn btn-danger">Logout</button>
+          <span id="userInfo" class="user-info"></span>
+        </nav>
+      </header>
+
+      <main class="main-content">
+        <div id="alerts"></div>
+
+        <div class="admin-container">
+          <div class="admin-header">
+            <h2>Admin Dashboard</h2>
+            <p>Manage users and monitor blog activity</p>
+          </div>
+
+          <div class="admin-stats">
+            <div class="stat-card">
+              <h3 id="totalUsers">0</h3>
+              <p>Total Users</p>
+            </div>
+            <div class="stat-card">
+              <h3 id="totalPosts">0</h3>
+              <p>Total Posts</p>
+            </div>
+            <div class="stat-card">
+              <h3 id="totalAuthors">0</h3>
+              <p>Authors</p>
+            </div>
+            <div class="stat-card">
+              <h3 id="totalAdmins">0</h3>
+              <p>Admins</p>
+            </div>
+          </div>
+
+          <div class="admin-sections">
+            <div class="admin-section">
+              <div class="section-header">
+                
+                <h3>
+                  
+                  All Users
+                </h3>
+                <div class="section-controls">
+                  <input
+                    type="text"
+                    id="userSearch"
+                    placeholder="Search users..."
+                    oninput="searchUsers()"
+                  />
+                  <select id="roleFilter" onchange="filterUsers()">
+                    <option value="">All Roles</option>
+                    <option value="admin">Admins</option>
+                    <option value="author">Authors</option>
+                  </select>
+                </div>
+              </div>
+              <div class="users-grid" id="usersContainer">
+                <!-- Users will be rendered here -->
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script src="script.js"></script>
+    
+  </body>
+</html>

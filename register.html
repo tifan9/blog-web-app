@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blogger - Register</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Blogger</h1>
+            <nav class="nav">
+                <a href="index.html" class="btn btn-outline">Home</a>
+                <a href="login.html" class="btn btn-primary">Login</a>
+                <a href="display-blog.html" class="btn btn-outline">View Posts</a>
+            </nav>
+        </header>
+
+        <main class="main-content">
+            <div class="auth-container">
+                <div class="auth-form">
+                    <h2>Create Your Account</h2>
+                    <div id="alerts"></div>
+                    
+                    <form id="registerForm" onsubmit="handleRegister(event)">
+                        <div class="form-group">
+                            <label for="registerUsername">Username</label>
+                            <input type="text" id="registerUsername" placeholder="Choose a username" required minlength="3">
+                            <small>Must be at least 3 characters long</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="registerPassword">Password</label>
+                            <input type="password" id="registerPassword" placeholder="Choose a password" required minlength="6">
+                            <small>Must be at least 6 characters long</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="registerRole">Role</label>
+                            <select id="registerRole" required>
+                                <option value="">Select your role</option>
+                                <option value="author">Author - Can write and manage posts</option>
+                                <option value="admin">Admin - Can manage users</option>
+                            </select>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary btn-full">Create Account</button>
+                    </form>
+                    
+                    <div class="auth-footer">
+                        <p>Already have an account? <a href="login.html">Login here</a></p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
