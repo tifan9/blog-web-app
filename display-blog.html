@@ -119,12 +119,12 @@
                 <div class="post-card">
                     ${imageHTML}
                     <div class="post-card-content">
-                        <h3 class="post-card-title">${escapeHTML(post.title)}</h3>
+                        <h3 class="post-card-title">${(post.title)}</h3>
                         <div class="post-card-meta">
-                            <span class="post-author">By ${escapeHTML(post.author)}</span>
+                            <span class="post-author">By ${(post.author)}</span>
                             <span class="post-date">${formatDate(post.createdAt)}</span>
                         </div>
-                        <p class="post-card-excerpt">${escapeHTML(post.content.substring(0, 150))}${post.content.length > 150 ? '...' : ''}</p>
+                        <p class="post-card-excerpt">${(post.content.substring(0, 150))}${post.content.length > 150 ? '...' : ''}</p>
                         ${actionsHTML}
                     </div>
                 </div>

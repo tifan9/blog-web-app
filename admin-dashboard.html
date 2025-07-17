@@ -160,7 +160,7 @@
         return `
                 <div class="user-card">
                     <div class="user-card-header">
-                        <h4 class="user-name">${escapeHTML(user.username)}</h4>
+                        <h4 class="user-name">${(user.username)}</h4>
                         <span class="user-role ${user.role}">${user.role}</span>
                     </div>
                     <div class="user-card-stats">
@@ -201,18 +201,18 @@
           .map(
             (post) => `
                     <div class="recent-post-item">
-                        <h4 class="recent-post-title">${escapeHTML(
+                        <h4 class="recent-post-title">${(
                           post.title
                         )}</h4>
                         <div class="recent-post-meta">
-                            <span class="recent-post-author">By ${escapeHTML(
+                            <span class="recent-post-author">By ${(
                               post.author
                             )}</span>
                             <span class="recent-post-date">${formatDate(
                               post.createdAt
                             )}</span>
                         </div>
-                        <p class="recent-post-excerpt">${escapeHTML(
+                        <p class="recent-post-excerpt">${(
                           post.content.substring(0, 100)
                         )}...</p>
                     </div>

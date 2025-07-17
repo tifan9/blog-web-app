@@ -109,7 +109,7 @@
               container.innerHTML = posts
                   .map(post => `
                       <div class="user-post-item">
-                          <h4>${escapeHTML(post.title)}</h4>
+                          <h4>${(post.title)}</h4>
                           <p class="post-date">${formatDate(post.createdAt)}</p>
                           <div class="post-actions">
                               <button onclick="editPost('${post.id}')" class="btn btn-small btn-secondary">Edit</button>
