@@ -1,0 +1,202 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  body {
+    background: linear-gradient(135deg, #889ca3 0%, #6f909b 50%, #071829 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  
+  .dashboard-container {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    width: 100%;
+    max-width: 500px;
+    padding: 30px;
+    text-align: center;
+    animation: fadeIn 0.5s ease-out;
+    backdrop-filter: blur(5px);
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .dashboard-header h2 {
+    color: #2c3e50;
+    font-size: 2rem;
+    margin-bottom: 10px;
+  }
+  
+  .username-display {
+    color: #3498db;
+    font-weight: 600;
+    font-size: 1.2em;
+  }
+  
+  .user-details {
+    text-align: left;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 20px;
+  }
+  
+  .detail-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #ecf0f1;
+  }
+  
+  .detail-row:last-child {
+    border-bottom: none;
+  }
+  
+  .detail-label {
+    color: #7f8c8d;
+    font-weight: 500;
+  }
+  
+  .detail-value {
+    color: #2c3e50;
+    font-weight: 600;
+  }
+  
+  .logout-section {
+    margin-top: 40px;
+    background: #fff5f5;
+    padding: 25px;
+    border-radius: 10px;
+    border: 1px solid #ffe6e6;
+  }
+  
+  .logout-title {
+    color: #e74c3c;
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+  
+  .logout-instruction {
+    color: #7f8c8d;
+    margin-bottom: 20px;
+  }
+  
+  .btn-logout {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.1rem;
+    background: linear-gradient(to right, #1766cc, #1e4bac);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .btn-logout:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(21, 70, 204, 0.3);
+  }
+  
+  .logout-message {
+    display: none;
+    margin: 5vh auto;
+    background-color: #eafaf1;
+    padding: 4vw;
+    color: #27ae60;
+    border-radius: 0.5em;
+    border: 1px solid #bfe3d1;
+    max-width: 90%;
+    width: fit-content;
+    animation: fadeOut 2s forwards;
+    text-align: center;
+    font-size: 1rem;
+  }
+  
+  @keyframes fadeOut {
+    0% { opacity: 1; }
+    100% { opacity: 0; }
+  }
+  
+  /* Modal Styles */
+  .modal-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .modal {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    text-align: center;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  }
+  
+  .modal h3 {
+    margin-bottom: 15px;
+    color: #e74c3c;
+  }
+  
+  .modal-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    gap: 10px;
+  }
+  
+  .modal-buttons button {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  
+  .btn-cancel {
+    background: #bdc3c7;
+    color: white;
+  }
+  
+  .btn-confirm {
+    background: #e74c3c;
+    color: white;
+  }
+  
+  @media (max-width: 480px) {
+    .dashboard-header h2 {
+      font-size: 1.6rem;
+    }
+    .username-display {
+      font-size: 1rem;
+    }
+    .btn-logout {
+      padding: 14px;
+      font-size: 1rem;
+    }
+    @keyframes fadeOut {
+      0% { opacity: 1; }
+      100% { opacity: 0; display: none; }
+    }
+  }
+  
