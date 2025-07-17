@@ -42,6 +42,120 @@
     </div>
 
     <script src="script.js"></script>
-    
+    <script>
+        let displayedPosts = 0;
+        const postsPerPage = 6;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuthForDisplay();
+            renderPosts();
+        });
+
+        function checkAuthForDisplay() {
+            const user = getCurrentUser();
+            if (user) {
+                document.getElementById('loginLink').style.display = 'none';
+                document.getElementById('logoutBtn').style.display = 'inline-block';
+                document.getElementById('userInfo').style.display = 'inline-block';
+                document.getElementById('userInfo').textContent = `${user.username} (${user.role})`;
+                
+                if (user.role === 'author') {
+                    document.getElementById('createPostLink').style.display = 'inline-block';
+                }
+                
+                if (user.role === 'admin') {
+                    document.getElementById('adminLink').style.display = 'inline-block';
+                }
+            }
+        }
+
+        function renderPosts() {
+            const posts = getPosts()
+                .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+            renderFilteredPosts(posts);
+        }
+
+        function renderFilteredPosts(posts) {
+            const container = document.getElementById('postsContainer');
+            const loadMoreContainer = document.getElementById('loadMoreContainer');
+            
+            if (posts.length === 0) {
+                container.innerHTML = '<div class="no-posts-large">No posts found. <a href="blog.html">Create the first post!</a></div>';
+                loadMoreContainer.style.display = 'none';
+                return;
+            }
+            
+            const postsToShow = posts.slice(0, displayedPosts + postsPerPage);
+            displayedPosts = postsToShow.length;
+            
+            container.innerHTML = postsToShow
+                .map(post => createPostCard(post))
+                .join('');
+            
+            // Show/hide load more button
+            if (displayedPosts < posts.length) {
+                loadMoreContainer.style.display = 'block';
+            } else {
+                loadMoreContainer.style.display = 'none';
+            }
+        }
+
+        function createPostCard(post) {
+            const currentUser = getCurrentUser();
+            const canEdit = currentUser && currentUser.username === post.author;
+            const imageHTML = post.image ? 
+                `<div class="post-image-container">
+                    <img src="${post.image}" alt="${post.title}" class="post-image" onerror="this.parentElement.style.display='none'">
+                </div>` : '';
+            
+            const actionsHTML = canEdit ? `
+                <div class="post-card-actions">
+                    <button class="btn btn-small btn-secondary" onclick="editPostFromDisplay('${post.id}')">Edit</button>
+                    <button class="btn btn-small btn-danger" onclick="deletePost('${post.id}')">Delete</button>
+                </div>
+            ` : '';
+            
+            return `
+                <div class="post-card">
+                    ${imageHTML}
+                    <div class="post-card-content">
+                        <h3 class="post-card-title">${escapeHTML(post.title)}</h3>
+                        <div class="post-card-meta">
+                            <span class="post-author">By ${escapeHTML(post.author)}</span>
+                            <span class="post-date">${formatDate(post.createdAt)}</span>
+                        </div>
+                        <p class="post-card-excerpt">${escapeHTML(post.content.substring(0, 150))}${post.content.length > 150 ? '...' : ''}</p>
+                        ${actionsHTML}
+                    </div>
+                </div>
+            `;
+        }
+
+        function loadMorePosts() {
+            renderPosts();
+        }
+
+        function editPostFromDisplay(postId) {
+            // Store the post ID to edit and redirect to blog page
+            localStorage.setItem('editPostId', postId);
+            window.location.href = 'blog.html';
+        }
+
+        function searchPosts() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const posts = getPosts();
+            
+            const filteredPosts = posts
+                .filter(post => 
+                    post.title.toLowerCase().includes(searchTerm) ||
+                    post.content.toLowerCase().includes(searchTerm) ||
+                    post.author.toLowerCase().includes(searchTerm)
+                )
+                .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+            
+            displayedPosts = 0; // Reset pagination
+            renderFilteredPosts(filteredPosts);
+        }
+    </script>
 </body>
 </html>

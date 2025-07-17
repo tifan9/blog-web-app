@@ -79,6 +79,173 @@
     </div>
 
     <script src="script.js"></script>
-    
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        checkAuthForAdmin();
+        renderAdminDashboard();
+      });
+
+      function checkAuthForAdmin() {
+        const user = getCurrentUser();
+        if (!user) {
+          window.location.href = "login.html";
+          return;
+        }
+
+        if (user.role !== "admin") {
+          showAlert("Access denied. Admin privileges required.", "error");
+          setTimeout(() => {
+            window.location.href =
+              user.role === "author" ? "blog.html" : "display-blog.html";
+          }, 2000);
+          return;
+        }
+
+        document.getElementById(
+          "userInfo"
+        ).textContent = `${user.username} (${user.role})`;
+      }
+
+      function renderAdminDashboard() {
+        renderStats();
+        renderUsers();
+        renderRecentPosts();
+      }
+
+      function renderStats() {
+        const users = getUsers();
+        const posts = getPosts();
+
+        const authors = users.filter((user) => user.role === "author");
+        const admins = users.filter((user) => user.role === "admin");
+
+        document.getElementById("totalUsers").textContent = users.length;
+        document.getElementById("totalPosts").textContent = posts.length;
+        document.getElementById("totalAuthors").textContent = authors.length;
+        document.getElementById("totalAdmins").textContent = admins.length;
+      }
+
+      function renderUsers() {
+        const users = getUsers().sort((a, b) =>
+          a.username.localeCompare(b.username)
+        );
+        renderFilteredUsers(users);
+      }
+
+      function renderFilteredUsers(users) {
+        const container = document.getElementById("usersContainer");
+
+        if (users.length === 0) {
+          container.innerHTML = '<div class="no-users">No users found.</div>';
+          return;
+        }
+
+        container.innerHTML = users
+          .map((user) => createUserCard(user))
+          .join("");
+      }
+
+      function createUserCard(user) {
+        const posts = getPosts().filter(
+          (post) => post.author === user.username
+        );
+        const postCount = posts.length;
+        const lastPost =
+          posts.length > 0
+            ? posts.sort(
+                (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+              )[0]
+            : null;
+
+        return `
+                <div class="user-card">
+                    <div class="user-card-header">
+                        <h4 class="user-name">${escapeHTML(user.username)}</h4>
+                        <span class="user-role ${user.role}">${user.role}</span>
+                    </div>
+                    <div class="user-card-stats">
+                        <div class="user-stat">
+                            <span class="stat-number">${postCount}</span>
+                            <span class="stat-label">Posts</span>
+                        </div>
+                        ${
+                          lastPost
+                            ? `
+                            <div class="user-stat">
+                                <span class="stat-label">Last Post:</span>
+                                <span class="stat-text">${formatDate(
+                                  lastPost.createdAt
+                                )}</span>
+                            </div>
+                        `
+                            : ""
+                        }
+                    </div>
+                </div>
+            `;
+      }
+
+      function renderRecentPosts() {
+        const posts = getPosts()
+          .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+          .slice(0, 5);
+
+        const container = document.getElementById("recentPostsContainer");
+
+        if (posts.length === 0) {
+          container.innerHTML = '<div class="no-posts">No posts found.</div>';
+          return;
+        }
+
+        container.innerHTML = posts
+          .map(
+            (post) => `
+                    <div class="recent-post-item">
+                        <h4 class="recent-post-title">${escapeHTML(
+                          post.title
+                        )}</h4>
+                        <div class="recent-post-meta">
+                            <span class="recent-post-author">By ${escapeHTML(
+                              post.author
+                            )}</span>
+                            <span class="recent-post-date">${formatDate(
+                              post.createdAt
+                            )}</span>
+                        </div>
+                        <p class="recent-post-excerpt">${escapeHTML(
+                          post.content.substring(0, 100)
+                        )}...</p>
+                    </div>
+                `
+          )
+          .join("");
+      }
+
+      function searchUsers() {
+        const searchTerm = document
+          .getElementById("userSearch")
+          .value.toLowerCase();
+        const roleFilter = document.getElementById("roleFilter").value;
+
+        let users = getUsers();
+
+        if (searchTerm) {
+          users = users.filter((user) =>
+            user.username.toLowerCase().includes(searchTerm)
+          );
+        }
+
+        if (roleFilter) {
+          users = users.filter((user) => user.role === roleFilter);
+        }
+
+        users = users.sort((a, b) => a.username.localeCompare(b.username));
+        renderFilteredUsers(users);
+      }
+
+      function filterUsers() {
+        searchUsers(); // Reuse the search function
+      }
+    </script>
   </body>
 </html>
